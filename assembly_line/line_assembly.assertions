@@ -1,0 +1,15 @@
+untimed assertion A1 : line_assembly::AssemblyLine is deterministic
+untimed assertion A2 : line_assembly::AssemblyLine is divergence-free
+untimed assertion A3 : line_assembly::AssemblyLine is deadlock-free
+untimed assertion T1 : line_assembly::AssemblyLine terminates
+
+
+csp target_refine associated to line_assembly::AssemblyLine csp-begin
+channel accept
+
+target_process = line_assembly::AssemblyLine::VS__(0, 2)
+target_refine = target_process ; accept -> STOP
+csp-end
+
+
+untimed assertion R1: target_refine refines line_assembly::AssemblyLine

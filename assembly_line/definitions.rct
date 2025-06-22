@@ -1,0 +1,21 @@
+package definitions
+
+
+interface KinovaGen3LiteArmControl {
+	move_to_pose ( )
+	check_movement ( )
+}
+
+interface AssemblyEvents {
+	event inspect_component: boolean
+	event pick_component
+	event place_component
+	event assemble_product
+	event verify_assembly
+	event package_product
+	event return_to_home
+	event perform_calibration
+	event finalize_operation
+	event finalize_operation_with_fail
+	event back_to_op
+}

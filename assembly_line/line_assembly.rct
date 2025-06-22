@@ -1,0 +1,113 @@
+package line_assembly
+
+import definitions::*
+
+
+stm AssemblyLine {
+	uses AssemblyEvents 
+	var defect_component_count : int = 0
+	const max_defective_components : int = 2
+	transition t0 {
+		from Initial
+		to WaitOp
+	}
+	initial Initial
+	state WaitOp {
+	}
+	final Finish
+	transition t1 {
+		from WaitOp
+		to ComponentPicked
+	trigger 
+	
+	pick_component
+	}
+	transition t3 {
+		from ComponentPicked
+		to ComponentInspected
+	trigger 
+	inspect_component ? defective_component
+	}
+	transition t6 {
+		from ComponentInspected
+		to ComponentDiscarded
+	trigger 
+		place_component
+		condition defective_component == true
+	}
+	transition t7 {
+		from ComponentDiscarded
+		to HomePosition
+	trigger 
+	return_to_home
+	}
+	transition t8 {
+		from ComponentInspected
+		to ComponentPlaced
+	trigger 
+		place_component
+		condition defective_component == false
+	}
+	transition t9 {
+		from ComponentPlaced
+		to ProductAssembled
+	trigger 
+	assemble_product
+	}
+	transition t10 {
+		from ProductAssembled
+		to AssemblyVerified
+	trigger 
+	verify_assembly
+	}
+	transition t11 {
+		from AssemblyVerified
+		to ProductPackaged
+	trigger 
+	package_product
+	}
+	transition t12 {
+		from ProductPackaged
+		to Finish
+	trigger 
+	finalize_operation
+	}
+	var defective_component : boolean
+	state ComponentPicked {
+	}
+	state ComponentInspected {
+	}
+	state ComponentDiscarded {
+		entry defect_component_count = defect_component_count + 1
+	}
+	state ComponentPlaced {
+	}
+	state ProductAssembled {
+	}
+	state AssemblyVerified {
+	}
+	state ProductPackaged {
+	}
+	state CalibrationPerformed {
+	}
+	state HomePosition {
+	}
+	transition t13 {
+		from CalibrationPerformed
+		to Finish
+		trigger finalize_operation_with_fail
+	}
+	transition t5 {
+		from HomePosition
+		to WaitOp
+		trigger back_to_op
+		condition defect_component_count < max_defective_components
+	}
+	transition t14 {
+		from HomePosition
+		to CalibrationPerformed
+		trigger perform_calibration
+		condition defect_component_count == max_defective_components
+	}
+}
+

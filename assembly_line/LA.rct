@@ -1,0 +1,14 @@
+import definitions::*
+import LineAssemblyControl::*
+
+
+module LineAssemblyModule {
+	robotic platform KInovaGen3Lite {
+	uses AssemblyEvents 
+	provides KinovaGen3LiteArmControl 
+	}
+	
+	cref ctrl_lineassembly = line_assembly_control::LAControl
+
+}
+

@@ -1,0 +1,26 @@
+package line_assembly_control
+
+import definitions::*
+import line_assembly::*
+import stop::* 
+
+controller LAControl {
+	uses AssemblyEvents 
+	requires KinovaGen3LiteArmControl 
+
+	sref stm_ref0 = AssemblyLine
+
+	connection LAControl on inspect_component to stm_ref0 on inspect_component
+
+connection LAControl on pick_component to stm_ref0 on pick_component
+	connection LAControl on place_component to stm_ref0 on place_component
+	connection LAControl on assemble_product to stm_ref0 on assemble_product
+	connection LAControl on verify_assembly to stm_ref0 on verify_assembly
+	connection LAControl on package_product to stm_ref0 on package_product
+	connection LAControl on return_to_home to stm_ref0 on return_to_home
+	connection LAControl on perform_calibration to stm_ref0 on perform_calibration
+	connection LAControl on finalize_operation to stm_ref0 on finalize_operation
+	connection LAControl on finalize_operation_with_fail to stm_ref0 on finalize_operation_with_fail
+	connection LAControl on back_to_op to stm_ref0 on back_to_op
+}
+
